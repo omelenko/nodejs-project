@@ -55,3 +55,8 @@
 - **username** (String)
 - **email** (String)
 - **password** (String) -- хеш пароля
+
+### Favourite 
+- **id** (PK, Int)
+- **user_id** (FK, Int) -- хто додав
+- **track_id** (FK, Int) -- що додав
