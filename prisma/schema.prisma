@@ -1,13 +1,78 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Get a free hosted Postgres database in seconds: `npx create-db`
-
-generator client {
-  provider = "prisma-client"
-  output   = "../generated/prisma"
-}
-
 datasource db {
   provider = "postgresql"
+}
+// --- ОСНОВНІ СУТНОСТІ ---
+
+model User {
+  id        Int         @id @default(autoincrement())
+  username  String      @unique
+  email     String      @unique
+  password  String      // Тут зберігатимемо хеш
+  playlists Playlist[]  // Плейлисти, які створив користувач
+  favorites Favourite[] // Улюблені треки
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+}
+
+model Artist {
+  id     Int     @id @default(autoincrement())
+  name   String
+  bio    String?
+  albums Album[]
+}
+
+model Album {
+  id          Int      @id @default(autoincrement())
+  title       String
+  artistId    Int
+  artist      Artist   @relation(fields: [artistId], references: [id])
+  coverUrl    String?
+  releaseYear Int?
+  tracks      Track[]
+}
+
+model Track {
+  id        Int             @id @default(autoincrement())
+  title     String
+  genre     String?
+  duration  Int             // Тривалість у секундах
+  fileUrl   String
+  albumId   Int?            // Nullable, щоб можна було додавати сингли
+  album     Album?          @relation(fields: [albumId], references: [id])
+  playlists PlaylistTrack[]
+  favorited Favourite[]
+}
+
+model Playlist {
+  id        Int             @id @default(autoincrement())
+  name      String
+  creatorId Int
+  creator   User            @relation(fields: [creatorId], references: [id])
+  tracks    PlaylistTrack[]
+  createdAt DateTime        @default(now())
+}
+
+// --- ПРОМІЖНІ ТАБЛИЦІ (ДЛЯ ЗВ'ЯЗКІВ БАГАТО-ДО-БАГАТЬОХ) ---
+
+// Зв'язок: Плейлист <-> Треки
+model PlaylistTrack {
+  playlistId Int
+  trackId    Int
+  playlist   Playlist @relation(fields: [playlistId], references: [id])
+  track      Track    @relation(fields: [trackId], references: [id])
+  addedAt    DateTime @default(now())
+
+  @@id([playlistId, trackId]) // Композитний первинний ключ
+}
+
+// Зв'язок: Користувач <-> Улюблені треки
+model Favourite {
+  id      Int      @id @default(autoincrement())
+  userId  Int
+  trackId Int
+  user    User     @relation(fields: [userId], references: [id])
+  track   Track    @relation(fields: [trackId], references: [id])
+  addedAt DateTime @default(now())
+
+  @@unique([userId, trackId]) // Користувач може додати трек в улюблені лише один раз
 }
