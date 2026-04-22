@@ -65,3 +65,11 @@
 - **id** (PK, Int)
 - **name** (String)
 - **bio** (Text)
+
+### Tracks
+- **id** (PK, Int)
+- **title** (String)
+- **genre** (String) -- перенесено сюди
+- **duration** (Int)
+- **file_url** (String)
+- **album_id** (FK, Int)
