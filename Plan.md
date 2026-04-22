@@ -7,13 +7,13 @@
 | Учасник | Роль | Основні обов'язки |
 | :--- | :--- | :--- |
 | Меленко Олександр | TeamLead | Координація проєкту, управління репозиторієм, перевірка коду (Code Review), фінальна збірка. |
-| Гайсюк Вільгельм | Database Architect | Проєктування схеми БД (PostgreSQL), налаштування зв'язків, міграції, робота з Prisma/Sequelize. |
+| Гайсюк Вільгельм | Database Developer | Проєктування схеми БД (PostgreSQL), налаштування зв'язків, міграції, робота з Prisma/Sequelize. |
 | Крайнічук Леонід | Backend Developer | Налаштування сервера Express.js, створення маршрутів (Routes) та бізнес-логіки API. |
 
 ## 🛠 Технологічний стек
 * Runtime: Node.js
 * Framework: Express.js
-* Database: PostgreSQL (Cloud hosting)
+* Database: PostgreSQL (Cloud hosting Neon)
 * ORM: Prisma
 * Tools: Visual Studio Code, WebStorm, Git/GitHub, HTTP Client (.http files)
 
