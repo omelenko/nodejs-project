@@ -60,3 +60,8 @@
 - **id** (PK, Int)
 - **user_id** (FK, Int) -- хто додав
 - **track_id** (FK, Int) -- що додав
+
+### Artists
+- **id** (PK, Int)
+- **name** (String)
+- **bio** (Text)
