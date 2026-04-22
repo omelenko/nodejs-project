@@ -73,3 +73,8 @@
 - **duration** (Int)
 - **file_url** (String)
 - **album_id** (FK, Int)
+
+### Playlists
+- **id** (PK, Int)
+- **name** (String)
+- **creator_id** (FK, Int) -- зв'язок із User.id
