@@ -7,13 +7,13 @@
 | Учасник | Роль | Основні обов'язки |
 | :--- | :--- | :--- |
 | Меленко Олександр | TeamLead | Координація проєкту, управління репозиторієм, перевірка коду (Code Review), фінальна збірка. |
-| Гайсюк Вільгельм | Database Architect | Проєктування схеми БД (PostgreSQL), налаштування зв'язків, міграції, робота з Prisma/Sequelize. |
+| Гайсюк Вільгельм | Database Developer | Проєктування схеми БД (PostgreSQL), налаштування зв'язків, міграції, робота з Prisma/Sequelize. |
 | Крайнічук Леонід | Backend Developer | Налаштування сервера Express.js, створення маршрутів (Routes) та бізнес-логіки API. |
 
 ## 🛠 Технологічний стек
 * Runtime: Node.js
 * Framework: Express.js
-* Database: PostgreSQL (Cloud hosting)
+* Database: PostgreSQL (Cloud hosting Neon)
 * ORM: Prisma
 * Tools: Visual Studio Code, WebStorm, Git/GitHub, HTTP Client (.http files)
 
@@ -31,19 +31,53 @@
 
 ### Етап 3: Керування та Тестування (Олександр)
 - [ ] Налаштування GitHub Projects для відстеження тасків.
+- [ ] Захистити main від прямого Push 
+- [ ] Заборонити іншим учасникам виконувати merge без схвалення TeamLead
 - [ ] Створення документації API у форматі Markdown або .http.
 - [ ] Фінальне тестування інтеграції БД та сервера.
+- [ ] Покрити проєкт тестами на >= 80%
 
 
-## 🗄 Структура бази даних (Draft)
+## 🗄 Структура бази даних (Оновлена)
 
 ### Основні сутності:
-- Artists: інформація про виконавців.
-- Albums: альбоми, прив'язані до конкретних виконавців.
-- Tracks: музичні композиції з посиланнями на стрімінг.
-- Playlists: користувацькі списки відтворення.
+- **Users**: дані користувачів системи.
+- **Artists**: інформація про виконавців (без прив'язки до жанру).
+- **Albums**: колекції треків одного виконавця.
+- **Tracks**: музичні файли з вказанням індивідуального жанру.
+- **Playlists**: списки відтворення, створені конкретними користувачами.
+- **Favourites**: обрані треки користувачів.
 
-Тип зв'язків:
-- Один виконавець -> Багато альбомів (1:N)
-- Один альбом -> Багато треків (1:N)
-- Треки <-> Плейлисти (M:N)
+### Нові зв'язки:
+- **User -> Playlists**: зв'язок (1:N) через поле `creator_id`.
+- **User -> Tracks**: зв'язок (M:N) через таблицю `Favourites`.
+- **Artist -> Albums -> Tracks**: ієрархічна структура контенту.
+
+### User:
+- **id** (PK, Int)
+- **username** (String)
+- **email** (String)
+- **password** (String) -- хеш пароля
+
+### Favourite 
+- **id** (PK, Int)
+- **user_id** (FK, Int) -- хто додав
+- **track_id** (FK, Int) -- що додав
+
+### Artists
+- **id** (PK, Int)
+- **name** (String)
+- **bio** (Text)
+
+### Tracks
+- **id** (PK, Int)
+- **title** (String)
+- **genre** (String) -- перенесено сюди
+- **duration** (Int)
+- **file_url** (String)
+- **album_id** (FK, Int)
+
+### Playlists
+- **id** (PK, Int)
+- **name** (String)
+- **creator_id** (FK, Int) -- зв'язок із User.id
