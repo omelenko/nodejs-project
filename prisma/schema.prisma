@@ -69,6 +69,15 @@ model Track {
   favorited Favourite[]
 }
 
+model ArtistTrack {
+  artistId Int
+  trackId  Int
+  artist   Artist @relation(fields: [artistId], references: [id])
+  track    Track  @relation(fields: [trackId], references: [id])
+
+  @@id([artistId, trackId]) // Композитний ключ
+}
+
 model Playlist {
   id        Int             @id @default(autoincrement())
   name      String
