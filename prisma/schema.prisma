@@ -37,12 +37,14 @@ model Artist {
 }
 
 model Album {
-  id          Int      @id @default(autoincrement())
+  id          Int           @id @default(autoincrement())
   title       String
   artistId    Int
   artist      Artist   @relation(fields: [artistId], references: [id])
   coverUrl    String?
   releaseYear Int?
+  // Зв'язок з проміжною таблицею
+  artists     ArtistAlbum[]
   tracks      Track[]
 }
 
