@@ -60,10 +60,11 @@ model Track {
   id        Int             @id @default(autoincrement())
   title     String
   genre     String?
-  duration  Int             // Тривалість у секундах
+  duration  Int
   fileUrl   String
-  albumId   Int?            // Nullable, щоб можна було додавати сингли
+  albumId   Int?
   album     Album?          @relation(fields: [albumId], references: [id])
+  artists   ArtistTrack[]   // Зв'язок із виконавцями (фіти)
   playlists PlaylistTrack[]
   favorited Favourite[]
 }
