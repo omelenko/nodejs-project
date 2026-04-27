@@ -15,10 +15,25 @@ model User {
 }
 
 model Artist {
-  id     Int     @id @default(autoincrement())
-  name   String
-  bio    String?
-  albums Album[]
+  id           Int           @id @default(autoincrement())
+  stageName    String        @unique // Псевдонім (обов'язковий і унікальний)
+  firstName    String?       // Справжнє ім'я
+  lastName     String?       // Справжнє прізвище
+  bio          String?       @db.Text
+  country      String?       // Країна походження (напр., "Ukraine")
+
+  // Візуальні елементи
+  avatarUrl    String?
+  bannerUrl    String?
+  isVerified   Boolean       @default(false)
+
+
+  // Зв'язки
+  albums       ArtistAlbum[]
+  tracks       ArtistTrack[]
+
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
 }
 
 model Album {
