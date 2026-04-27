@@ -48,6 +48,16 @@ model Album {
   tracks      Track[]
 }
 
+model ArtistAlbum {
+  artistId Int
+  albumId  Int
+  artist   Artist @relation(fields: [artistId], references: [id])
+  album    Album  @relation(fields: [albumId], references: [id])
+
+  @@id([artistId, albumId]) // Спільний ключ
+}
+
+
 model Track {
   id        Int             @id @default(autoincrement())
   title     String
