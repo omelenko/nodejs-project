@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require("cors");
 require("dotenv").config();
 const app = express();
 const port = 3000;
@@ -9,6 +10,16 @@ const artistRoutes = require("./routes/artistRoutes");
 const albumRoutes = require("./routes/albumRoutes"); // <-- Додано
 const trackRoutes = require("./routes/trackRoutes");
 const playlistRoutes = require("./routes/playlistRoutes");
+
+//CORS для фронтенду
+app.use(cors(
+    {
+        origin: process.env.FRONTEND_URL,
+        methods: ["GET", "POST", "PUT", "DELETE"],
+        allowedHeaders: ["Content-Type", "Authorization", "Authorization"],
+    }
+))
+
 
 app.use(express.json());
 
