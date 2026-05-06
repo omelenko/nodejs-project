@@ -28,6 +28,9 @@ model Artist {
   bio          String?       @db.Text
   country      String?       // Країна походження (напр., "Ukraine")
 
+  userId       Int  @unique
+  user         User @relation(fields: [userId], references: [id])
+
   // Візуальні елементи
   avatarUrl    String?
   bannerUrl    String?
