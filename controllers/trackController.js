@@ -1,4 +1,4 @@
-const prisma = require("../prismaClient");
+const prisma = require('../prismaClient');
 
 exports.getAll = async (req, res) => {
   try {

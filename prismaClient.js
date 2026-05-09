@@ -1,7 +1,7 @@
 // prismaClient.js
-const { PrismaClient } = require("@prisma/client");
-const { Pool } = require("pg");
-const { PrismaPg } = require("@prisma/adapter-pg");
+const { PrismaClient } = require('@prisma/client');
+const { Pool } = require('pg');
+const { PrismaPg } = require('@prisma/adapter-pg');
 
 // 1. Створюємо пул з'єднань через стандартний драйвер PostgreSQL
 const pool = new Pool({
