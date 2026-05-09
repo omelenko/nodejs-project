@@ -1,0 +1,6 @@
+function FavoriteButton() {
+    return (
+        <>
+        </>
+    )
+}
