@@ -1,4 +1,4 @@
-const prisma = require("../prismaClient");
+const prisma = require('../prismaClient');
 
 // Отримати всіх користувачів
 exports.getAll = async (req, res) => {
@@ -20,7 +20,7 @@ exports.getById = async (req, res) => {
       include: { playlists: true },
     });
     if (!user)
-      return res.status(404).json({ message: "Користувача не знайдено" });
+      return res.status(404).json({ message: 'Користувача не знайдено' });
     res.json(user);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -49,7 +49,7 @@ exports.addFavorite = async (req, res) => {
     const favorite = await prisma.favourite.create({
       data: { userId, trackId },
     });
-    res.status(201).json({ message: "Трек додано в улюблені", favorite });
+    res.status(201).json({ message: 'Трек додано в улюблені', favorite });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }

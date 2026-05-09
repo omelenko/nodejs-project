@@ -4,3 +4,5 @@ function FavoriteButton() {
         </>
     )
 }
+
+export default FavoriteButton

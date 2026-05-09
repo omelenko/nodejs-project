@@ -1,4 +1,4 @@
-const prisma = require("../prismaClient");
+const prisma = require('../prismaClient');
 
 exports.create = async (req, res) => {
   try {
@@ -23,7 +23,7 @@ exports.addTrack = async (req, res) => {
     });
     res
       .status(201)
-      .json({ message: "Трек додано до плейлиста", playlistTrack });
+      .json({ message: 'Трек додано до плейлиста', playlistTrack });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }

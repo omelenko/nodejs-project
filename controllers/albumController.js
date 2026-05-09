@@ -1,4 +1,4 @@
-const prisma = require("../prismaClient");
+const prisma = require('../prismaClient');
 
 // Отримати всі альбоми разом із їхніми авторами (артистами)
 exports.getAll = async (req, res) => {
@@ -26,7 +26,7 @@ exports.getById = async (req, res) => {
         artists: { include: { artist: true } },
       },
     });
-    if (!album) return res.status(404).json({ message: "Альбом не знайдено" });
+    if (!album) return res.status(404).json({ message: 'Альбом не знайдено' });
     res.json(album);
   } catch (error) {
     res.status(500).json({ error: error.message });
