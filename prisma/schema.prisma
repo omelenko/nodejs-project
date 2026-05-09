@@ -13,6 +13,7 @@ model User {
   username  String      @unique
   email     String      @unique
   password  String      // Тут зберігатимемо хеш
+  artistProfile Artist?
   playlists Playlist[]  // Плейлисти, які створив користувач
   favorites Favourite[] // Улюблені треки
   createdAt DateTime    @default(now())
@@ -26,6 +27,9 @@ model Artist {
   lastName     String?       // Справжнє прізвище
   bio          String?       @db.Text
   country      String?       // Країна походження (напр., "Ukraine")
+
+  userId       Int  @unique
+  user         User @relation(fields: [userId], references: [id])
 
   // Візуальні елементи
   avatarUrl    String?
