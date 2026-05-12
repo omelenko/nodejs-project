@@ -11,9 +11,19 @@ exports.getAll = async (req, res) => {
 
 exports.create = async (req, res) => {
   try {
-    const { stageName, firstName, lastName, bio, country } = req.body;
+    // Додаємо userId до списку полів, які ми чекаємо від клієнта
+    const { stageName, firstName, lastName, bio, country, userId } = req.body;
+
     const artist = await prisma.artist.create({
-      data: { stageName, firstName, lastName, bio, country },
+      data: {
+        stageName,
+        firstName,
+        lastName,
+        bio,
+        country,
+        // Обов'язково вказуємо зв'язок з користувачем
+        userId: parseInt(userId),
+      },
     });
     res.status(201).json(artist);
   } catch (error) {
@@ -29,6 +39,17 @@ exports.attachToAlbum = async (req, res) => {
       data: { artistId: parseInt(artistId), albumId: parseInt(albumId) },
     });
     res.status(201).json(relation);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+exports.remove = async (req, res) => {
+  try {
+    await prisma.artist.delete({
+      where: { id: parseInt(req.params.id) },
+    });
+    res.status(204).send();
   } catch (error) {
     res.status(400).json({ error: error.message });
   }

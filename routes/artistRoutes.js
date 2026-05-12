@@ -57,4 +57,22 @@ router.post('/', artistController.create);
  */
 router.post('/attach-album', artistController.attachToAlbum);
 
+/**
+ * @swagger
+ * /api/artists/{id}:
+ *   delete:
+ *     summary: Видалити артиста за ID
+ *     tags: [Artists]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       204:
+ *         description: Артиста видалено
+ */
+router.delete('/:id', artistController.remove);
+
 module.exports = router;
