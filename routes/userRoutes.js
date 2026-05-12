@@ -148,4 +148,32 @@ router.post('/register', authController.register);
  */
 router.post('/login', authController.login);
 
+/**
+ * @swagger
+ * /api/users/{id}/favorites:
+ *   delete:
+ *     summary: Видалити трек з улюблених
+ *     tags: [Users]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID користувача
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               trackId:
+ *                 type: integer
+ *     responses:
+ *       204:
+ *         description: Трек видалено з улюблених
+ */
+router.delete('/:id/favorites', userController.removeFavorite);
+
 module.exports = router;

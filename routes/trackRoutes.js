@@ -45,4 +45,22 @@ const trackController = require('../controllers/trackController');
 router.get('/', trackController.getAll);
 router.post('/', trackController.create);
 
+/**
+ * @swagger
+ * /api/tracks/{id}:
+ *   delete:
+ *     summary: Видалити трек за ID
+ *     tags: [Tracks]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       204:
+ *         description: Трек видалено
+ */
+router.delete('/:id', trackController.remove);
+
 module.exports = router;

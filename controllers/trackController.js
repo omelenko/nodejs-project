@@ -36,3 +36,14 @@ exports.create = async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 };
+
+exports.remove = async (req, res) => {
+  try {
+    await prisma.track.delete({
+      where: { id: parseInt(req.params.id) },
+    });
+    res.status(204).send();
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};

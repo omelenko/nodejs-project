@@ -45,3 +45,32 @@ exports.create = async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 };
+
+// Видалити альбом
+exports.remove = async (req, res) => {
+  try {
+    const id = parseInt(req.params.id);
+
+    // 1. Спочатку перевіряємо, чи існує такий альбом
+    const album = await prisma.album.findUnique({
+      where: { id: id },
+    });
+
+    if (!album) {
+      return res
+        .status(404)
+        .json({
+          message: 'Альбом із таким ID не знайдено або він уже видалений',
+        });
+    }
+
+    // 2. Якщо існує — видаляємо
+    await prisma.album.delete({
+      where: { id: id },
+    });
+
+    res.status(204).send(); // Успішно видалено (без тіла відповіді)
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};

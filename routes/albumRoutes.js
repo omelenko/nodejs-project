@@ -66,4 +66,22 @@ router.post('/', albumController.create);
  */
 router.get('/:id', albumController.getById);
 
+/**
+ * @swagger
+ * /api/albums/{id}:
+ *   delete:
+ *     summary: Видалити альбом за ID
+ *     tags: [Albums]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       204:
+ *         description: Альбом видалено
+ */
+router.delete('/:id', albumController.remove);
+
 module.exports = router;

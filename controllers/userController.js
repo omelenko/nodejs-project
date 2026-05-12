@@ -54,3 +54,22 @@ exports.addFavorite = async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 };
+
+exports.removeFavorite = async (req, res) => {
+  try {
+    const userId = parseInt(req.params.id);
+    const { trackId } = req.body;
+
+    // Використовуємо deleteMany, щоб видалити запис за парою ID користувача та треку
+    await prisma.favourite.deleteMany({
+      where: {
+        userId: userId,
+        trackId: parseInt(trackId),
+      },
+    });
+
+    res.status(204).send(); // 204 No Content означає успішне видалення
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
