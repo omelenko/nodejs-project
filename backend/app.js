@@ -2,9 +2,21 @@ const express = require('express');
 const cors = require('cors');
 const swaggerJsdoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
-require('dotenv').config();
+const path = require('path');
+require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
 
 const app = express();
+
+app.use(
+    cors({
+      origin: process.env.FRONTEND_URL,
+      methods: ['GET', 'POST', 'PUT', 'DELETE'],
+      allowedHeaders: ['Content-Type', 'Authorization'],
+    })
+);
+
+app.use(express.json());
+
 const port = process.env.PORT || 3000;
 
 // Імпорт роутерів
@@ -15,15 +27,7 @@ const trackRoutes = require('./routes/trackRoutes');
 const playlistRoutes = require('./routes/playlistRoutes');
 const searchRoutes = require('./routes/searchRoutes'); // Додано пошук
 
-app.use(
-  cors({
-    origin: process.env.FRONTEND_URL,
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
-  })
-);
 
-app.use(express.json());
 
 // Конфігурація Swagger
 const swaggerOptions = {
