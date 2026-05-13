@@ -24,7 +24,7 @@ const MyLibrary = () => {
     }, [activeTab]);
 
     return (
-        <div className="min-h-screen w-full bg-[#1A1A2E] bg-gradient-to-br from-[#1A1A2E] via-[#16213E] to-[#0F3460] font-['Inter'] text-white">
+        <div className="min-h-screen w-full bg-[#1A1A2E] bg-linear-to-br from-[#1A1A2E] via-[#16213E] to-[#0F3460] font-['Inter'] text-white">
 
 
 
@@ -69,7 +69,7 @@ const MyLibrary = () => {
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
 
                     {/* Create New Item Card */}
-                    <button className="group flex flex-col items-center justify-center aspect-[4/5] bg-white/5 rounded-2xl border border-dashed border-white/20 hover:border-white/40 hover:bg-white/[0.07] transition-all">
+                    <button className="group flex flex-col items-center justify-center aspect-4/5 bg-white/5 rounded-2xl border border-dashed border-white/20 hover:border-white/40 hover:bg-white/[0.07] transition-all">
                         <div className="w-16 h-16 bg-white/10 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
                             <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4"/></svg>
                         </div>
@@ -84,7 +84,7 @@ const MyLibrary = () => {
                             <Link
                                 to={`/${activeTab}/${item.id}`}
                                 key={item.id}
-                                className="group flex flex-col bg-white/5 rounded-2xl border border-white/10 hover:bg-white/[0.08] hover:border-white/20 transition-all overflow-hidden p-4"
+                                className="group flex flex-col bg-white/5 rounded-2xl border border-white/10 hover:bg-white/8 hover:border-white/20 transition-all overflow-hidden p-4"
                             >
                                 <div className="aspect-square relative mb-4 overflow-hidden rounded-xl">
                                     <img

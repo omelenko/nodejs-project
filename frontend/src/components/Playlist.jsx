@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import axios from 'axios';
 
 const Playlist = () => {
@@ -28,7 +28,7 @@ const Playlist = () => {
     if (!playlistData) return <div className="min-h-screen bg-[#1A1A2E] flex items-center justify-center text-white">Playlist not found</div>;
 
     return (
-        <div className="min-h-screen w-full bg-[#1A1A2E] bg-gradient-to-br from-[#1A1A2E] via-[#16213E] to-[#0F3460] font-['Inter'] text-white">
+        <div className="min-h-screen w-full bg-[#1A1A2E] bg-linear-to-br from-[#1A1A2E] via-[#16213E] to-[#0F3460] font-['Inter'] text-white">
 
 
 
@@ -37,7 +37,7 @@ const Playlist = () => {
                 {/* Header - Динамічні дані */}
                 <header className="flex flex-col md:flex-row items-end gap-8 mb-10">
                     <div
-                        className="w-64 h-64 rounded-xl shadow-2xl flex-shrink-0 bg-cover bg-center border border-white/10"
+                        className="w-64 h-64 rounded-xl shadow-2xl shrink-0 bg-cover bg-center border border-white/10"
                         style={{ backgroundImage: `url(${playlistData.coverImage || 'https://placehold.co/400x400?text=Playlist'})` }}
                     />
 

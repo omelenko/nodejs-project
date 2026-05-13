@@ -49,9 +49,9 @@ function Register() {
     return (
         <div className="min-h-screen w-full flex items-center justify-center bg-[#1A1A2E] p-4 font-['Inter']">
             {/* Background Gradient Layer */}
-            <div className="fixed inset-0 bg-gradient-to-br from-[#1A1A2E] via-[#16213E] to-[#0F3460] z-0"></div>
+            <div className="fixed inset-0 bg-linear-to-br from-[#1A1A2E] via-[#16213E] to-[#0F3460] z-0"></div>
 
-            <div className="relative z-10 w-full max-w-[448px]">
+            <div className="relative z-10 w-full max-w-md">
                 {/* Header Section */}
                 <div className="text-center mb-8">
                     <div className="w-16 h-16 bg-[#030213]/20 rounded-full flex items-center justify-center mx-auto mb-4">

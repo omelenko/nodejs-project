@@ -51,8 +51,8 @@ function Login() {
         }
     };
 
-    return (<div className="min-h-screen w-full bg-[#1A1A2E] bg-gradient-to-br from-[#1A1A2E] via-[#16213E] to-[#0F3460] flex items-center justify-center p-4 font-['Inter']">
-            <div className="w-full max-w-[448px] flex flex-col items-center">
+    return (<div className="min-h-screen w-full bg-[#1A1A2E] bg-linear-to-br from-[#1A1A2E] via-[#16213E] to-[#0F3460] flex items-center justify-center p-4 font-['Inter']">
+            <div className="w-full max-w-md flex flex-col items-center">
 
                 {/* Header Section */}
                 <div className="text-center mb-10">
