@@ -6,7 +6,7 @@ const Playlist = () => {
     const { id } = useParams(); // Отримуємо ID плейлиста з URL
     const [playlistData, setPlaylistData] = useState(null);
     const [loading, setLoading] = useState(true);
-    const [searchQuery, setSearchQuery] = useState('');
+    //const [searchQuery, setSearchQuery] = useState('');
 
     // Завантаження даних про плейлист із бекенду
     useEffect(() => {
