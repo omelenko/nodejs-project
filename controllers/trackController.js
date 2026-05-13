@@ -47,3 +47,32 @@ exports.remove = async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 };
+
+exports.getByGenre = async (req, res) => {
+  const { genre } = req.query; // Отримуємо жанр з query-параметрів (?genre=Rock)
+
+  try {
+    if (!genre) {
+      return res
+        .status(400)
+        .json({ error: 'Будь ласка, вкажіть жанр у параметрах запиту' });
+    }
+
+    const tracks = await prisma.track.findMany({
+      where: {
+        genre: {
+          equals: genre,
+          mode: 'insensitive', // Це дозволить знаходити "rock", "Rock" і "ROCK"
+        },
+      },
+      include: {
+        artists: { include: { artist: true } }, // Щоб бачити, хто виконує трек
+        album: true, // Щоб бачити, з якого це альбому
+      },
+    });
+
+    res.json(tracks);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
