@@ -62,5 +62,33 @@ router.post('/', trackController.create);
  *         description: Трек видалено
  */
 router.delete('/:id', trackController.remove);
+/**
+ * @swagger
+ * /api/tracks/filter/genre:
+ *   get:
+ *     summary: Отримати треки за конкретним жанром
+ *     tags: [Tracks]
+ *     parameters:
+ *       - in: query
+ *         name: genre
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: Назва жанру (наприклад, Rock, Pop, Jazz)
+ *     responses:
+ *       200:
+ *         description: Список знайдених треків
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Track'
+ *       400:
+ *         description: Не вказано жанр
+ *       500:
+ *         description: Помилка сервера
+ */
+router.get('/filter/genre', trackController.getByGenre);
 
 module.exports = router;

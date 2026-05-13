@@ -84,4 +84,25 @@ router.get('/:id', albumController.getById);
  */
 router.delete('/:id', albumController.remove);
 
+/**
+ * @swagger
+ * /api/albums/filter/year:
+ *   get:
+ *     summary: Отримати альбоми за конкретним роком випуску
+ *     tags: [Albums]
+ *     parameters:
+ *       - in: query
+ *         name: year
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: Рік випуску (наприклад, 2024)
+ *     responses:
+ *       200:
+ *         description: Список знайдених альбомів
+ *       400:
+ *         description: Невірний формат року
+ */
+router.get('/filter/year', albumController.getByYear);
+
 module.exports = router;
