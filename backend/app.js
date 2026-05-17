@@ -22,7 +22,7 @@ const port = process.env.PORT || 3000;
 // Імпорт роутерів
 const userRoutes = require('./routes/userRoutes');
 const artistRoutes = require('./routes/artistRoutes');
-const albumRoutes = require('./routes/albumRoutes');
+//const albumRoutes = require('./routes/albumRoutes');
 const trackRoutes = require('./routes/trackRoutes');
 const playlistRoutes = require('./routes/playlistRoutes');
 const searchRoutes = require('./routes/searchRoutes'); // Додано пошук
