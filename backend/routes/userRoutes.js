@@ -176,4 +176,23 @@ router.post('/login', authController.login);
  */
 router.delete('/:id/favorites', userController.removeFavorite);
 
+
+/**
+ * @swagger
+ * /api/users/me:
+ *   get:
+ *     summary: Отримати профіль користувача
+ *     tags: [Users]
+ *     responses:
+ *       200:
+ *         description: Профіль користувача
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/User'
+ */
+router.post('/me', userController.me);
+
 module.exports = router;

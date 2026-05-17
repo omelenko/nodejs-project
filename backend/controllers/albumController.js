@@ -3,8 +3,20 @@ const prisma = require('../prismaClient');
 // Отримати всі альбоми разом із їхніми авторами (артистами)
 exports.getAll = async (req, res) => {
   try {
+    const { search } = req.query;
+
+    const whereClause = {};
+
+    if (search) {
+      whereClause.title = {
+        contains: search,
+        mode: 'insensitive'
+      };
+    }
+
     const albums = await prisma.album.findMany({
       include: {
+        where: whereClause,
         artists: {
           include: { artist: true },
         },
@@ -36,11 +48,19 @@ exports.getById = async (req, res) => {
 // Створити альбом
 exports.create = async (req, res) => {
   try {
-    const { title, coverUrl, releaseYear } = req.body;
-    const album = await prisma.album.create({
-      data: { title, coverUrl, releaseYear },
+    const { title, coverUrl, releaseYear, artistIds } = req.body;
+
+    const newAlbum = await prisma.album.create({
+      data: {
+        title, coverUrl, releaseYear,
+        artists: {
+          create: artistIds.map(id => ({
+            artist: { connect: { id: parseInt(id) } }
+          }))
+        }
+      }
     });
-    res.status(201).json(album);
+    res.status(201).json(newAlbum);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }

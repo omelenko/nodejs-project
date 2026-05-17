@@ -60,7 +60,7 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.get('/', (req, res) => res.send('Музична платформа API працює!'));
 app.use('/api/users', userRoutes);
 app.use('/api/artists', artistRoutes);
-app.use('/api/albums', albumRoutes);
+//app.use('/api/albums', albumRoutes);
 app.use('/api/tracks', trackRoutes);
 app.use('/api/playlists', playlistRoutes);
 app.use('/api/search', searchRoutes); // Реєстрація роута пошуку
