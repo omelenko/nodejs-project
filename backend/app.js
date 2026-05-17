@@ -22,7 +22,7 @@ const port = process.env.PORT || 3000;
 // Імпорт роутерів
 const userRoutes = require('./routes/userRoutes');
 const artistRoutes = require('./routes/artistRoutes');
-const albumRoutes = require('./routes/albumRoutes');
+//const albumRoutes = require('./routes/albumRoutes');
 const trackRoutes = require('./routes/trackRoutes');
 const playlistRoutes = require('./routes/playlistRoutes');
 const searchRoutes = require('./routes/searchRoutes'); // Додано пошук
@@ -60,7 +60,7 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.get('/', (req, res) => res.send('Музична платформа API працює!'));
 app.use('/api/users', userRoutes);
 app.use('/api/artists', artistRoutes);
-app.use('/api/albums', albumRoutes);
+//app.use('/api/albums', albumRoutes);
 app.use('/api/tracks', trackRoutes);
 app.use('/api/playlists', playlistRoutes);
 app.use('/api/search', searchRoutes); // Реєстрація роута пошуку

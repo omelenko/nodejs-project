@@ -12,14 +12,14 @@ const playlistController = require('../controllers/playlistController');
  *       required: true
  *       content:
  *         application/json:
- *           schema:
- *             type: object
- *             required: [name, creatorId]
- *             properties:
- *               name:
- *                 type: string
- *               creatorId:
- *                 type: integer
+*          schema:
+*            type: object
+*            required: [name, creatorId]
+*            properties:
+*              name:
+*                type: string
+*              creatorId:
+*                type: integer
  *     responses:
  *       201:
  *         description: Плейлист створено
@@ -53,6 +53,30 @@ router.post('/', playlistController.create);
  *       200:
  *         description: Трек додано до плейлиста
  */
-router.post('/:id/tracks', playlistController.addTrack);
+router.post('/:id/tracks', playlistController.addTrackToPlaylist);
+
+/**
+ * @swagger
+ * /api/playlist/{id}/tracks/{trackId}:
+ *   delete:
+ *     summary: Видалити артиста за ID
+ *     tags: [Playlist]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       204:
+ *         description: Артиста видалено
+ */
+router.delete('/:id/tracks/:trackId', playlistController.removeTrackFromPlaylist);
 
 module.exports = router;
+
+//
+// name: trackId
+// required: true
+// schema:
+//     type: integer

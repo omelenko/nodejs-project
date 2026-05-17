@@ -35,27 +35,28 @@ router.post('/', artistController.create);
 
 /**
  * @swagger
- * /api/artists/attach-album:
- *   post:
- *     summary: Прив'язати виконавця до альбому (співавторство)
+ * /api/artists/{id}:
+ *   get:
+ *     summary: Отримати артиста за ID
  *     tags: [Artists]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             required: [artistId, albumId]
- *             properties:
- *               artistId:
- *                 type: integer
- *               albumId:
- *                 type: integer
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID артиста
  *     responses:
  *       200:
- *         description: Виконавця успішно додано до альбому
+ *         description: Дані артиста
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Album'
+ *       404:
+ *         description: Артиста не знайдено
  */
-router.post('/attach-album', artistController.attachToAlbum);
+router.get('/:id', artistController.getById);
 
 /**
  * @swagger

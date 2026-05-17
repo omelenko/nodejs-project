@@ -1,4 +1,5 @@
 const prisma = require('../prismaClient');
+
 exports.globalSearch = async (req, res) => {
   const { query } = req.query;
   try {

@@ -2,45 +2,61 @@ const prisma = require('../prismaClient');
 
 exports.getAll = async (req, res) => {
   try {
-    const artists = await prisma.artist.findMany();
+    const { search } = req.query;
+
+    const whereClause = {};
+
+    if (search) {
+      whereClause.stageName = {
+        contains: search,
+        mode: 'insensitive'
+      };
+    }
+
+    const artists = await prisma.artist.findMany(
+        {
+          where: whereClause,
+        }
+    );
     res.json(artists);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
 
+// Створення профілю артиста для поточного User
 exports.create = async (req, res) => {
   try {
-    // Додаємо userId до списку полів, які ми чекаємо від клієнта
-    const { stageName, firstName, lastName, bio, country, userId } = req.body;
+    const { stageName, firstName, lastName, bio, country, avatarUrl, bannerUrl } = req.body;
+    const userId = req.user.id;
 
-    const artist = await prisma.artist.create({
+    const newArtist = await prisma.artist.create({
       data: {
-        stageName,
-        firstName,
-        lastName,
-        bio,
-        country,
-        // Обов'язково вказуємо зв'язок з користувачем
-        userId: parseInt(userId),
-      },
+        stageName, firstName, lastName, bio, country, avatarUrl, bannerUrl,
+        userId: userId
+      }
     });
-    res.status(201).json(artist);
+    res.status(201).json(newArtist);
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    res.status(400).json({ error: "Цей псевдонім (stageName) вже зайнятий або у вас вже є профіль артиста" });
   }
 };
 
-// Прив'язати артиста до альбому (Реалізація логіки таблиці ArtistAlbum)
-exports.attachToAlbum = async (req, res) => {
+// Отримання публічного профілю артиста з його треками та альбомами
+exports.getById = async (req, res) => {
   try {
-    const { artistId, albumId } = req.body;
-    const relation = await prisma.artistAlbum.create({
-      data: { artistId: parseInt(artistId), albumId: parseInt(albumId) },
+    const artist = await prisma.artist.findUnique({
+      where: { id: parseInt(req.params.id) },
+      include: {
+        tracks: { include: { track: true } }, // через проміжну таблицю ArtistTrack
+        albums: { include: { album: true } }  // через проміжну таблицю ArtistAlbum
+      }
     });
-    res.status(201).json(relation);
+
+    if (!artist) return res.status(404).json({ message: "Артиста не знайдено" });
+    res.json(artist);
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    res.status(500).json({ error: error.message });
   }
 };
 
