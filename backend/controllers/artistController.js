@@ -9,15 +9,13 @@ exports.getAll = async (req, res) => {
     if (search) {
       whereClause.stageName = {
         contains: search,
-        mode: 'insensitive'
+        mode: 'insensitive',
       };
     }
 
-    const artists = await prisma.artist.findMany(
-        {
-          where: whereClause,
-        }
-    );
+    const artists = await prisma.artist.findMany({
+      where: whereClause,
+    });
     res.json(artists);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -27,18 +25,35 @@ exports.getAll = async (req, res) => {
 // Створення профілю артиста для поточного User
 exports.create = async (req, res) => {
   try {
-    const { stageName, firstName, lastName, bio, country, avatarUrl, bannerUrl } = req.body;
+    const {
+      stageName,
+      firstName,
+      lastName,
+      bio,
+      country,
+      avatarUrl,
+      bannerUrl,
+    } = req.body;
     const userId = req.user.id;
 
     const newArtist = await prisma.artist.create({
       data: {
-        stageName, firstName, lastName, bio, country, avatarUrl, bannerUrl,
-        userId: userId
-      }
+        stageName,
+        firstName,
+        lastName,
+        bio,
+        country,
+        avatarUrl,
+        bannerUrl,
+        userId: userId,
+      },
     });
     res.status(201).json(newArtist);
-  } catch (error) {
-    res.status(400).json({ error: "Цей псевдонім (stageName) вже зайнятий або у вас вже є профіль артиста" });
+  } catch {
+    res.status(400).json({
+      error:
+        'Цей псевдонім (stageName) вже зайнятий або у вас вже є профіль артиста',
+    });
   }
 };
 
@@ -49,11 +64,12 @@ exports.getById = async (req, res) => {
       where: { id: parseInt(req.params.id) },
       include: {
         tracks: { include: { track: true } }, // через проміжну таблицю ArtistTrack
-        albums: { include: { album: true } }  // через проміжну таблицю ArtistAlbum
-      }
+        albums: { include: { album: true } }, // через проміжну таблицю ArtistAlbum
+      },
     });
 
-    if (!artist) return res.status(404).json({ message: "Артиста не знайдено" });
+    if (!artist)
+      return res.status(404).json({ message: 'Артиста не знайдено' });
     res.json(artist);
   } catch (error) {
     res.status(500).json({ error: error.message });

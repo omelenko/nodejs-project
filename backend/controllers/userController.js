@@ -78,27 +78,26 @@ exports.me = async (req, res) => {
     const userId = req.user?.userId;
 
     if (!userId) {
-      return res.status(401).json({ error: "Користувач не авторизований" });
+      return res.status(401).json({ error: 'Користувач не авторизований' });
     }
 
     const user = await prisma.user.findUnique({
       where: {
-        id: parseInt(userId)
+        id: parseInt(userId),
       },
       include: {
-        artistProfile: true
-      }
+        artistProfile: true,
+      },
     });
 
     if (!user) {
-      return res.status(404).json({ error: "Користувача не знайдено" });
+      return res.status(404).json({ error: 'Користувача не знайдено' });
     }
 
-    const { password, ...userWithoutPassword } = user;
+    delete user.password;
 
-    res.json(userWithoutPassword);
-
+    res.json(user);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
-}
+};

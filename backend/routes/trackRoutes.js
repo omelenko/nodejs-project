@@ -1,8 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const trackController = require('../controllers/trackController');
-const playlistController = require("../controllers/playlistController");
-
 /**
  * @swagger
  *   /api/tracks:
@@ -36,7 +34,6 @@ const playlistController = require("../controllers/playlistController");
  *           description: Внутрішня помилка сервера
  */
 router.get('/', trackController.getAll);
-
 
 /**
  * @swagger

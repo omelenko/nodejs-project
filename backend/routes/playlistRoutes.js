@@ -187,6 +187,9 @@ router.post('/:id/tracks', playlistController.addTrackToPlaylist);
  *         404:
  *           description: Зв'язок не знайдено
  */
-router.delete('/:id/tracks/:trackId', playlistController.removeTrackFromPlaylist);
+router.delete(
+  '/:id/tracks/:trackId',
+  playlistController.removeTrackFromPlaylist
+);
 
 module.exports = router;
