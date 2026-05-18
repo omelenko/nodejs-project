@@ -75,7 +75,7 @@ exports.removeFavorite = async (req, res) => {
 };
 exports.me = async (req, res) => {
   try {
-    const userId = req.user?.id;
+    const userId = req.user?.userId;
 
     if (!userId) {
       return res.status(401).json({ error: "Користувач не авторизований" });

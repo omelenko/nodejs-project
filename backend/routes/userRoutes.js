@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const userController = require('../controllers/userController');
 const authController = require('../controllers/authController');
+const protect = require('../middleware/auth');
 
 /**
  * @swagger
@@ -41,6 +42,39 @@ const authController = require('../controllers/authController');
  */
 router.get('/', userController.getAll);
 router.post('/', userController.create);
+
+
+/**
+ * @swagger
+ * /api/users/me:
+ *   get:
+ *     summary: Отримати профіль користувача
+ *     tags: [Users]
+ *     security:
+ *         - BearerAuth: []
+ *           requestBody:
+ *             required: true
+ *             content:
+ *               application/json:
+ *                 schema:
+ *                   type: object
+ *                   required:
+ *                     - name
+ *                 properties:
+ *                   name:
+ *                     type: string
+ *                     example: "Summer Vibes 2026"
+ *     responses:
+ *       200:
+ *         description: Профіль користувача
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/User'
+ */
+router.get('/me', protect, userController.me);
 
 /**
  * @swagger
@@ -175,24 +209,5 @@ router.post('/login', authController.login);
  *         description: Трек видалено з улюблених
  */
 router.delete('/:id/favorites', userController.removeFavorite);
-
-
-/**
- * @swagger
- * /api/users/me:
- *   get:
- *     summary: Отримати профіль користувача
- *     tags: [Users]
- *     responses:
- *       200:
- *         description: Профіль користувача
- *         content:
- *           application/json:
- *             schema:
- *               type: array
- *               items:
- *                 $ref: '#/components/schemas/User'
- */
-router.post('/me', userController.me);
 
 module.exports = router;

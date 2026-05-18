@@ -1,94 +1,154 @@
 const express = require('express');
 const router = express.Router();
 const trackController = require('../controllers/trackController');
+const playlistController = require("../controllers/playlistController");
 
 /**
  * @swagger
- * /api/tracks:
- *   get:
- *     summary: Отримати список усіх треків
- *     tags: [Tracks]
- *     responses:
- *       200:
- *         description: Список треків
+ *   /api/tracks:
+ *     get:
+ *       summary: Отримати всі треки з фільтрацією
+ *       description: Повертає список усіх треків. Підтримує необов'язкову фільтрацію за назвою (search) та жанром (genre).
+ *       tags: [Tracks]
+ *       parameters:
+ *         - in: query
+ *           name: search
+ *           schema:
+ *             type: string
+ *           required: false
+ *           description: Пошук за назвою треку (регістронезалежний)
+ *         - in: query
+ *           name: genre
+ *           schema:
+ *             type: string
+ *           required: false
+ *           description: Фільтрація за жанром треку (наприклад, Rock, Pop)
+ *       responses:
+ *         200:
+ *           description: Успішно отримано список треків
+ *           content:
+ *             application/json:
+ *               schema:
+ *                 type: array
+ *                 items:
+ *                   $ref: '#/components/schemas/TrackFull'
+ *         500:
+ *           description: Внутрішня помилка сервера
+ */
+router.get('/', trackController.getAll);
+
+
+/**
+ * @swagger
+ *   /api/tracks/{id}:
+ *     get:
+ *       summary: Отримати трек за ID
+ *       description: Повертає повну інформацію про трек.
+ *       tags: [Tracks]
+ *       parameters:
+ *         - in: path
+ *           name: id
+ *           schema:
+ *             type: integer
+ *           required: true
+ *           description: Цифровий ID треку
+ *       responses:
+ *         200:
+ *           description: Трек успішно знайдено
+ *           content:
+ *             application/json:
+ *               schema:
+ *                 type: object
+ *                 allOf:
+ *                   - $ref: '#/components/schemas/Playlist'
+ *                   - type: object
+ *                     properties:
+ *                       tracks:
+ *                         type: array
+ *                         items:
+ *                           type: object
+ *                           properties:
+ *                             track:
+ *                               $ref: '#/components/schemas/TrackMinimal'
+ *         404:
+ *           description: Трек не знайдено
+ *         500:
+ *           description: Внутрішня помилка сервера
+ */
+router.get('/:id', trackController.getById);
+
+/**
+ * @swagger
+ *   /api/tracks:
+ *     post:
+ *       summary: Створити новий трек
+ *       description: Створює трек та прив'язує його до виконавців (через масив artistIds). Поле albumId є необов'язковим (сингл).
+ *       tags: [Tracks]
+ *       requestBody:
+ *         required: true
  *         content:
  *           application/json:
  *             schema:
- *               type: array
- *               items:
- *                 $ref: '#/components/schemas/Track'
- *   post:
- *     summary: Завантажити/створити новий трек
- *     tags: [Tracks]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             required: [title, duration, fileUrl]
- *             properties:
- *               title:
- *                 type: string
- *               genre:
- *                 type: string
- *               duration:
- *                 type: integer
- *               fileUrl:
- *                 type: string
- *               albumId:
- *                 type: integer
- *     responses:
- *       201:
- *         description: Трек успішно створено
+ *               type: object
+ *               required:
+ *                 - title
+ *                 - genre
+ *                 - duration
+ *                 - fileUrl
+ *                 - artistIds
+ *               properties:
+ *                 title:
+ *                   type: string
+ *                   example: "Midnight Dreams"
+ *                 genre:
+ *                   type: string
+ *                   example: "Synthwave"
+ *                 duration:
+ *                   type: string
+ *                   example: 405
+ *                 fileUrl:
+ *                   type: string
+ *                   example: "https://example.com/storage/track102.mp3"
+ *                 albumId:
+ *                   type: integer
+ *                   example: 1
+ *                 artistIds:
+ *                   type: array
+ *                   items:
+ *                     type: integer
+ *                   example: [4, 7]
+ *       responses:
+ *         201:
+ *           description: Трек успішно створено
+ *           content:
+ *             application/json:
+ *               schema:
+ *                 $ref: '#/components/schemas/TrackFull'
+ *         400:
+ *           description: Помилка створення або некоректні ID даних
  */
-router.get('/', trackController.getAll);
 router.post('/', trackController.create);
 
 /**
  * @swagger
- * /api/tracks/{id}:
- *   delete:
- *     summary: Видалити трек за ID
- *     tags: [Tracks]
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema:
- *           type: integer
- *     responses:
- *       204:
- *         description: Трек видалено
+ *   /api/tracks/{id}:
+ *     delete:
+ *       summary: Видалити трек за ID
+ *       description: Видаляє трек з бази даних за його унікальним ідентифікатором.
+ *       tags: [Tracks]
+ *       parameters:
+ *         - in: path
+ *           name: id
+ *           schema:
+ *             type: integer
+ *           required: true
+ *           description: Цифровий ID треку, який потрібно видалити
+ *       responses:
+ *         204:
+ *           description: Трек успішно видалено
+ *         400:
+ *           description: Помилка під час видалення
  */
 router.delete('/:id', trackController.remove);
-/**
- * @swagger
- * /api/tracks/filter/genre:
- *   get:
- *     summary: Отримати треки за конкретним жанром
- *     tags: [Tracks]
- *     parameters:
- *       - in: query
- *         name: genre
- *         schema:
- *           type: string
- *         required: true
- *         description: Назва жанру (наприклад, Rock, Pop, Jazz)
- *     responses:
- *       200:
- *         description: Список знайдених треків
- *         content:
- *           application/json:
- *             schema:
- *               type: array
- *               items:
- *                 $ref: '#/components/schemas/Track'
- *       400:
- *         description: Не вказано жанр
- *       500:
- *         description: Помилка сервера
- */
-router.get('/filter/genre', trackController.getByGenre);
 
 module.exports = router;

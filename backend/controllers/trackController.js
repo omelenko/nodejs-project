@@ -3,7 +3,7 @@ const prisma = require('../prismaClient');
 // Отримати всі треки з фільтрацією за жанром
 exports.getAll = async (req, res) => {
   try {
-    const {search, genre } = req.query;
+    const {search, genre} = req.query;
 
     const whereClause = {};
 
@@ -15,7 +15,10 @@ exports.getAll = async (req, res) => {
     }
 
     if (genre) {
-      whereClause.genre = genre;
+      whereClause.genre = {
+        contains: genre,
+        mode: 'insensitive'
+      };
     }
 
     const tracks = await prisma.track.findMany({
@@ -30,30 +33,13 @@ exports.getAll = async (req, res) => {
   }
 };
 
-exports.getByGenre = async (req, res) => {
-  const { genre } = req.query; // Отримуємо жанр з query-параметрів (?genre=Rock)
-
+exports.getById = async (req, res) => {
   try {
-    if (!genre) {
-      return res
-          .status(400)
-          .json({ error: 'Будь ласка, вкажіть жанр у параметрах запиту' });
-    }
-
-    const tracks = await prisma.track.findMany({
-      where: {
-        genre: {
-          equals: genre,
-          mode: 'insensitive',
-        },
-      },
-      include: {
-        artists: { include: { artist: true } }, // Щоб бачити, хто виконує трек
-        album: true, // Щоб бачити, з якого це альбому
-      },
+    const track = await prisma.track.findUnique({
+      where: { id: parseInt(req.params.id) }
     });
-
-    res.json(tracks);
+    if (!track) return res.status(404).json({ message: "Трек не знайдено" });
+    res.json(track);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -69,11 +55,11 @@ exports.create = async (req, res) => {
         title, genre, duration, fileUrl,
         albumId: albumId ? parseInt(albumId) : null,
         // Магія Prisma для зв'язку багато-до-багатьох (ArtistTrack)
-        artists: {
+        artists: artistIds ? {
           create: artistIds.map(id => ({
             artist: { connect: { id: parseInt(id) } }
           }))
-        }
+        } : null
       }
     });
     res.status(201).json(newTrack);

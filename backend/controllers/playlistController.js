@@ -22,7 +22,9 @@ exports.getById = async (req, res) => {
 exports.create = async (req, res) => {
   try {
     const { name } = req.body;
-    const userId = req.user.id;
+    const userId = req.user?.userId;
+
+    console.log(req.user);
 
     const newPlaylist = await prisma.playlist.create({
       data: {

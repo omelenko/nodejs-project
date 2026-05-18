@@ -15,8 +15,8 @@ exports.getAll = async (req, res) => {
     }
 
     const albums = await prisma.album.findMany({
+      where: whereClause,
       include: {
-        where: whereClause,
         artists: {
           include: { artist: true },
         },
@@ -94,7 +94,7 @@ exports.remove = async (req, res) => {
 };
 
 exports.getByYear = async (req, res) => {
-  const { year } = req.query;
+  const { year } = req.params;
 
   try {
     if (!year) {
