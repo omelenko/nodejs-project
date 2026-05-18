@@ -8,11 +8,11 @@ require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
 const app = express();
 
 app.use(
-    cors({
-      origin: process.env.FRONTEND_URL,
-      methods: ['GET', 'POST', 'PUT', 'DELETE'],
-      allowedHeaders: ['Content-Type', 'Authorization'],
-    })
+  cors({
+    origin: process.env.FRONTEND_URL,
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+  })
 );
 
 app.use(express.json());
@@ -26,8 +26,6 @@ const albumRoutes = require('./routes/albumRoutes');
 const trackRoutes = require('./routes/trackRoutes');
 const playlistRoutes = require('./routes/playlistRoutes');
 const searchRoutes = require('./routes/searchRoutes'); // Додано пошук
-
-
 
 // Конфігурація Swagger
 const swaggerOptions = {
@@ -53,7 +51,7 @@ const swaggerOptions = {
           scheme: 'bearer',
           bearerFormat: 'JWT',
           description: 'Введіть ваш JWT токен у форматі: Bearer <токен>',
-        }
+        },
       },
       schemas: {
         // Повна схема артиста
@@ -67,8 +65,14 @@ const swaggerOptions = {
             lastName: { type: 'string', example: 'Ковальчук' },
             bio: { type: 'string', example: 'Indie pop artist from Ukraine' },
             country: { type: 'string', example: 'Ukraine' },
-            avatarUrl: { type: 'string', example: 'https://example.com/avatar.jpg' },
-            bannerUrl: { type: 'string', example: 'https://example.com/banner.jpg' },
+            avatarUrl: {
+              type: 'string',
+              example: 'https://example.com/avatar.jpg',
+            },
+            bannerUrl: {
+              type: 'string',
+              example: 'https://example.com/banner.jpg',
+            },
             userId: { type: 'integer', example: 42 },
           },
         },
@@ -95,7 +99,10 @@ const swaggerOptions = {
           properties: {
             id: { type: 'integer', example: 1 },
             title: { type: 'string', example: 'Nocturnal Sessions' },
-            coverUrl: { type: 'string', example: 'https://placehold.co/400x400' },
+            coverUrl: {
+              type: 'string',
+              example: 'https://placehold.co/400x400',
+            },
             releaseYear: { type: 'integer', example: 2024 },
             artists: {
               type: 'array',
@@ -119,20 +126,20 @@ const swaggerOptions = {
             },
             name: {
               type: 'string',
-              example: "My Fav Chill Beats",
+              example: 'My Fav Chill Beats',
               creatorId: {
                 type: 'integer',
                 example: 42,
-              }
+              },
             },
             creator: {
               type: 'object',
               properties: {
                 username: {
                   type: 'string',
-                  example: "johndoe"
-                }
-              }
+                  example: 'johndoe',
+                },
+              },
             },
           },
         },
@@ -142,10 +149,10 @@ const swaggerOptions = {
             playlistId: {
               type: 'integer',
               example: 1,
-          },
-          trackId: {
+            },
+            trackId: {
               type: 'integer',
-              example: 102
+              example: 102,
             },
           },
         },
@@ -157,7 +164,10 @@ const swaggerOptions = {
             title: { type: 'string', example: 'Midnight Dreams' },
             genre: { type: 'string', example: 'Synthwave' },
             duration: { type: 'string', example: '4:05' },
-            fileUrl: { type: 'string', example: 'https://example.com/storage/track102.mp3' },
+            fileUrl: {
+              type: 'string',
+              example: 'https://example.com/storage/track102.mp3',
+            },
             albumId: { type: 'integer', nullable: true, example: 1 },
             artists: {
               type: 'array',

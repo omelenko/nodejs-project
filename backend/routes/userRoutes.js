@@ -43,7 +43,6 @@ const protect = require('../middleware/auth');
 router.get('/', userController.getAll);
 router.post('/', userController.create);
 
-
 /**
  * @swagger
  * /api/users/me:

@@ -1,18 +1,18 @@
 const prisma = require('../prismaClient');
 
-
 exports.getById = async (req, res) => {
   try {
     const playlist = await prisma.playlist.findUnique({
       where: { id: parseInt(req.params.id) },
       include: {
         tracks: {
-          include: { track: true } // Дістаємо треки через PlaylistTrack
+          include: { track: true }, // Дістаємо треки через PlaylistTrack
         },
-        creator: { select: { username: true } } // Інфо про творця
-      }
+        creator: { select: { username: true } }, // Інфо про творця
+      },
     });
-    if (!playlist) return res.status(404).json({ message: "Плейлист не знайдено" });
+    if (!playlist)
+      return res.status(404).json({ message: 'Плейлист не знайдено' });
     res.json(playlist);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -29,8 +29,8 @@ exports.create = async (req, res) => {
     const newPlaylist = await prisma.playlist.create({
       data: {
         name,
-        creatorId: userId
-      }
+        creatorId: userId,
+      },
     });
     res.status(201).json(newPlaylist);
   } catch (error) {
@@ -58,12 +58,14 @@ exports.addTrackToPlaylist = async (req, res) => {
     const link = await prisma.playlistTrack.create({
       data: {
         playlistId,
-        trackId: parseInt(trackId)
-      }
+        trackId: parseInt(trackId),
+      },
     });
-    res.status(201).json({ message: "Трек додано до плейлиста", link });
-  } catch (error) {
-    res.status(400).json({ error: "Не вдалося додати трек (можливо, він вже є в плейлисти)" });
+    res.status(201).json({ message: 'Трек додано до плейлиста', link });
+  } catch {
+    res.status(400).json({
+      error: 'Не вдалося додати трек (можливо, він вже є в плейлисти)',
+    });
   }
 };
 
@@ -75,11 +77,11 @@ exports.removeTrackFromPlaylist = async (req, res) => {
 
     await prisma.playlistTrack.delete({
       where: {
-        playlistId_trackId: { playlistId, trackId } // Складовий первинний ключ з вашої схеми @@id([playlistId, trackId])
-      }
+        playlistId_trackId: { playlistId, trackId }, // Складовий первинний ключ з вашої схеми @@id([playlistId, trackId])
+      },
     });
-    res.json({ message: "Трек видалено з плейлиста" });
-  } catch (error) {
+    res.json({ message: 'Трек видалено з плейлиста' });
+  } catch {
     res.status(404).json({ error: "Зв'язок не знайдено" });
   }
 };

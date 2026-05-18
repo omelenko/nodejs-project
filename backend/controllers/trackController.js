@@ -3,29 +3,29 @@ const prisma = require('../prismaClient');
 // Отримати всі треки з фільтрацією за жанром
 exports.getAll = async (req, res) => {
   try {
-    const {search, genre} = req.query;
+    const { search, genre } = req.query;
 
     const whereClause = {};
 
     if (search) {
       whereClause.title = {
         contains: search,
-        mode: 'insensitive'
+        mode: 'insensitive',
       };
     }
 
     if (genre) {
       whereClause.genre = {
         contains: genre,
-        mode: 'insensitive'
+        mode: 'insensitive',
       };
     }
 
     const tracks = await prisma.track.findMany({
       where: whereClause,
       include: {
-        artists: { include: { artist: true } } // показує авторів треку
-      }
+        artists: { include: { artist: true } }, // показує авторів треку
+      },
     });
     res.json(tracks);
   } catch (error) {
@@ -36,9 +36,9 @@ exports.getAll = async (req, res) => {
 exports.getById = async (req, res) => {
   try {
     const track = await prisma.track.findUnique({
-      where: { id: parseInt(req.params.id) }
+      where: { id: parseInt(req.params.id) },
     });
-    if (!track) return res.status(404).json({ message: "Трек не знайдено" });
+    if (!track) return res.status(404).json({ message: 'Трек не знайдено' });
     res.json(track);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -52,15 +52,20 @@ exports.create = async (req, res) => {
 
     const newTrack = await prisma.track.create({
       data: {
-        title, genre, duration, fileUrl,
+        title,
+        genre,
+        duration,
+        fileUrl,
         albumId: albumId ? parseInt(albumId) : null,
         // Магія Prisma для зв'язку багато-до-багатьох (ArtistTrack)
-        artists: artistIds ? {
-          create: artistIds.map(id => ({
-            artist: { connect: { id: parseInt(id) } }
-          }))
-        } : null
-      }
+        artists: artistIds
+          ? {
+              create: artistIds.map((id) => ({
+                artist: { connect: { id: parseInt(id) } },
+              })),
+            }
+          : null,
+      },
     });
     res.status(201).json(newTrack);
   } catch (error) {
@@ -78,5 +83,3 @@ exports.remove = async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 };
-
-

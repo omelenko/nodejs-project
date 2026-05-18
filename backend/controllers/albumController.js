@@ -10,7 +10,7 @@ exports.getAll = async (req, res) => {
     if (search) {
       whereClause.title = {
         contains: search,
-        mode: 'insensitive'
+        mode: 'insensitive',
       };
     }
 
@@ -52,13 +52,15 @@ exports.create = async (req, res) => {
 
     const newAlbum = await prisma.album.create({
       data: {
-        title, coverUrl, releaseYear,
+        title,
+        coverUrl,
+        releaseYear,
         artists: {
-          create: artistIds.map(id => ({
-            artist: { connect: { id: parseInt(id) } }
-          }))
-        }
-      }
+          create: artistIds.map((id) => ({
+            artist: { connect: { id: parseInt(id) } },
+          })),
+        },
+      },
     });
     res.status(201).json(newAlbum);
   } catch (error) {
