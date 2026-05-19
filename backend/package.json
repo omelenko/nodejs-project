@@ -4,7 +4,8 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "test": "jest",
+    "test:coverage": "jest --setupFiles ./tests/setup.js --runInBand --coverage",
+    "test": "jest --setupFiles ./tests/setup.js --runInBand",
     "test:cover": "jest --coverage",
     "start": "node app.js",
     "lint": "eslint .",
@@ -41,6 +42,7 @@
     "globals": "^17.6.0",
     "jest": "^30.4.2",
     "prettier": "^3.8.3",
-    "prisma": "^7.8.0"
+    "prisma": "^7.8.0",
+    "supertest": "^7.2.2"
   }
 }
