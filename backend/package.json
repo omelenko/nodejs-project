@@ -4,6 +4,7 @@
   "description": "",
   "main": "app.js",
   "scripts": {
+    "seed": "node prisma/seed.js",
     "test:coverage": "jest --setupFiles ./tests/setup.js --runInBand --coverage",
     "test": "jest --setupFiles ./tests/setup.js --runInBand",
     "test:cover": "jest --setupFiles ./tests/setup.js --runInBand --coverage",
