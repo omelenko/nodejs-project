@@ -50,7 +50,9 @@ describe('Albums API', () => {
     };
     await albumController.getByYear(req, res);
     expect(res.status).toHaveBeenCalledWith(400);
-    expect(res.json).toHaveBeenCalledWith({ error: 'Вкажіть рік для фільтрації' });
+    expect(res.json).toHaveBeenCalledWith({
+      error: 'Вкажіть рік для фільтрації',
+    });
   });
 
   it('should return 500 on getByYear error', async () => {

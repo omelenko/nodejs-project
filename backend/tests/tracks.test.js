@@ -35,7 +35,7 @@ describe('Tracks API', () => {
       const res = await request(app).get('/api/tracks');
 
       expect(res.statusCode).toBe(200);
-      expect(res.body.length).toBe(200 ? mockTracks.length : 2);
+      expect(res.body.length).toBe(mockTracks.length);
       expect(res.body[0].title).toBe('Track 1');
     });
 
@@ -155,14 +155,12 @@ describe('Tracks API', () => {
     it('should return 400 on create error', async () => {
       prisma.track.create.mockRejectedValue(new Error('Validation error'));
 
-      const res = await request(app)
-        .post('/api/tracks')
-        .send({
-          title: 'Invalid Track',
-          genre: 'Pop',
-          duration: '3:30',
-          fileUrl: 'http://example.com/track.mp3',
-        });
+      const res = await request(app).post('/api/tracks').send({
+        title: 'Invalid Track',
+        genre: 'Pop',
+        duration: '3:30',
+        fileUrl: 'http://example.com/track.mp3',
+      });
 
       expect(res.statusCode).toBe(400);
     });

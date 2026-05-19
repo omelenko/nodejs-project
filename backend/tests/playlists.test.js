@@ -85,7 +85,9 @@ describe('Playlists API', () => {
   });
 
   it('should return 400 on addTrack error', async () => {
-    prisma.playlistTrack.create.mockRejectedValue(new Error('Validation error'));
+    prisma.playlistTrack.create.mockRejectedValue(
+      new Error('Validation error')
+    );
     const res = await request(app)
       .post('/api/playlists/1/tracks')
       .set('Authorization', `Bearer ${mockToken}`)
@@ -100,7 +102,9 @@ describe('Playlists API', () => {
   });
 
   it('should return 404 on removeTrack error', async () => {
-    prisma.playlistTrack.delete.mockRejectedValue(new Error('Record not found'));
+    prisma.playlistTrack.delete.mockRejectedValue(
+      new Error('Record not found')
+    );
     const res = await request(app).delete('/api/playlists/1/tracks/100');
     expect(res.statusCode).toBe(404);
   });

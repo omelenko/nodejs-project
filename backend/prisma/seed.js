@@ -76,7 +76,8 @@ async function main() {
       lastName: 'Tesfaye',
       bio: 'Canadian singer, songwriter, and record producer known for his sonic versatility and dark themes.',
       country: 'Canada',
-      avatarUrl: 'https://i.scdn.co/image/ab6761610000e5eb214f3cf1cbe7139c1e26ffbb',
+      avatarUrl:
+        'https://i.scdn.co/image/ab6761610000e5eb214f3cf1cbe7139c1e26ffbb',
       isVerified: true,
       userId: user1.id,
     },
@@ -91,7 +92,8 @@ async function main() {
       lastName: 'Lamar',
       bio: 'Pulitzer Prize-winning rapper from Compton, California. One of the most influential artists of his generation.',
       country: 'USA',
-      avatarUrl: 'https://i.scdn.co/image/ab6761610000e5eb437b9e2a82505b3d93ff1022',
+      avatarUrl:
+        'https://i.scdn.co/image/ab6761610000e5eb437b9e2a82505b3d93ff1022',
       isVerified: true,
       userId: user2.id,
     },
@@ -106,7 +108,8 @@ async function main() {
       lastName: 'Eilish',
       bio: 'Grammy-winning pop artist known for her whisper-pop style and dark, introspective lyrics.',
       country: 'USA',
-      avatarUrl: 'https://i.scdn.co/image/ab6761610000e5eb4c4b9e1b5c2c5e5b5c2c5e5b',
+      avatarUrl:
+        'https://i.scdn.co/image/ab6761610000e5eb4c4b9e1b5c2c5e5b5c2c5e5b',
       isVerified: true,
       userId: user3.id,
     },
@@ -121,7 +124,8 @@ async function main() {
       lastName: 'Graham',
       bio: 'Canadian rapper, singer, and entrepreneur. Founder of OVO Sound.',
       country: 'Canada',
-      avatarUrl: 'https://i.scdn.co/image/ab6761610000e5ebe8c0cbf9e70980873d3da0f4',
+      avatarUrl:
+        'https://i.scdn.co/image/ab6761610000e5ebe8c0cbf9e70980873d3da0f4',
       isVerified: true,
       userId: user4.id,
     },
@@ -141,13 +145,19 @@ async function main() {
     },
   });
 
-  console.log('Artists created:', artist1.stageName, artist2.stageName, artist3.stageName);
+  console.log(
+    'Artists created:',
+    artist1.stageName,
+    artist2.stageName,
+    artist3.stageName
+  );
 
   // --- ALBUMS ---
   const album1 = await prisma.album.create({
     data: {
       title: 'After Hours',
-      coverUrl: 'https://i.scdn.co/image/ab67616d0000b2738863bc11d2aa12b54f5aeb36',
+      coverUrl:
+        'https://i.scdn.co/image/ab67616d0000b2738863bc11d2aa12b54f5aeb36',
       releaseYear: 2020,
       artists: {
         create: [{ artist: { connect: { id: artist1.id } } }],
@@ -158,7 +168,8 @@ async function main() {
   const album2 = await prisma.album.create({
     data: {
       title: 'To Pimp a Butterfly',
-      coverUrl: 'https://i.scdn.co/image/ab67616d0000b273cdb645498cd3d8a2db4d05e1',
+      coverUrl:
+        'https://i.scdn.co/image/ab67616d0000b273cdb645498cd3d8a2db4d05e1',
       releaseYear: 2015,
       artists: {
         create: [{ artist: { connect: { id: artist2.id } } }],
@@ -169,7 +180,8 @@ async function main() {
   const album3 = await prisma.album.create({
     data: {
       title: 'When We All Fall Asleep, Where Do We Go?',
-      coverUrl: 'https://i.scdn.co/image/ab67616d0000b27350a3147b4edd7701a876c6ce',
+      coverUrl:
+        'https://i.scdn.co/image/ab67616d0000b27350a3147b4edd7701a876c6ce',
       releaseYear: 2019,
       artists: {
         create: [{ artist: { connect: { id: artist3.id } } }],
@@ -180,7 +192,8 @@ async function main() {
   const album4 = await prisma.album.create({
     data: {
       title: 'Scorpion',
-      coverUrl: 'https://i.scdn.co/image/ab67616d0000b273f907de96b9a4fbc04accc0d5',
+      coverUrl:
+        'https://i.scdn.co/image/ab67616d0000b273f907de96b9a4fbc04accc0d5',
       releaseYear: 2018,
       artists: {
         create: [{ artist: { connect: { id: artist4.id } } }],
@@ -191,7 +204,8 @@ async function main() {
   const album5 = await prisma.album.create({
     data: {
       title: 'SOS',
-      coverUrl: 'https://i.scdn.co/image/ab67616d0000b273881d8d8378cd01099babcd44',
+      coverUrl:
+        'https://i.scdn.co/image/ab67616d0000b273881d8d8378cd01099babcd44',
       releaseYear: 2022,
       artists: {
         create: [{ artist: { connect: { id: artist5.id } } }],
@@ -258,7 +272,7 @@ async function main() {
     }),
     prisma.track.create({
       data: {
-        title: "These Walls",
+        title: 'These Walls',
         genre: 'Hip-Hop',
         duration: 302,
         fileUrl: 'https://audio.example.com/these-walls.mp3',
@@ -400,7 +414,12 @@ async function main() {
     },
   });
 
-  console.log('Playlists created:', playlist1.name, playlist2.name, playlist3.name);
+  console.log(
+    'Playlists created:',
+    playlist1.name,
+    playlist2.name,
+    playlist3.name
+  );
 
   // --- FAVOURITES ---
   await prisma.favourite.createMany({

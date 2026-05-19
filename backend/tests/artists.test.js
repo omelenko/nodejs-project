@@ -1,4 +1,3 @@
-const protect = require('../middleware/auth');
 const request = require('supertest');
 const app = require('./testApp');
 const prisma = require('../prismaClient');
