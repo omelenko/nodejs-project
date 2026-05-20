@@ -20,6 +20,14 @@ export default [
     },
   },
   {
+    files: ['tests/**/*.js'],
+    languageOptions: {
+      globals: {
+        ...globals.jest,
+      },
+    },
+  },
+  {
     // Аналог .eslintignore у новому форматі
     ignores: ['node_modules/', 'dist/', 'prisma/generated/'],
   },

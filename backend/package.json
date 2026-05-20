@@ -4,9 +4,11 @@
   "description": "",
   "main": "app.js",
   "scripts": {
+    "seed": "node prisma/seed.js",
+    "studio": "node -e \"require('dotenv').config(); const {spawnSync}=require('child_process'); spawnSync('./node_modules/.bin/prisma',['studio','--url',process.env.DATABASE_URL],{stdio:'inherit'});\"",
     "test:coverage": "jest --setupFiles ./tests/setup.js --runInBand --coverage",
     "test": "jest --setupFiles ./tests/setup.js --runInBand",
-    "test:cover": "jest --coverage",
+    "test:cover": "jest --setupFiles ./tests/setup.js --runInBand --coverage",
     "start": "node app.js",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",

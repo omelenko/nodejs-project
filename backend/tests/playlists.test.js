@@ -25,6 +25,12 @@ describe('Playlists API', () => {
     expect(res.statusCode).toBe(404);
   });
 
+  it('should return 500 on getById error', async () => {
+    prisma.playlist.findUnique.mockRejectedValue(new Error('DB Error'));
+    const res = await request(app).get('/api/playlists/1');
+    expect(res.statusCode).toBe(500);
+  });
+
   it('should return 401 if token is missing on create', async () => {
     const res = await request(app)
       .post('/api/playlists')
@@ -45,10 +51,25 @@ describe('Playlists API', () => {
     expect(res.statusCode).toBe(201);
   });
 
+  it('should return 400 on create error', async () => {
+    prisma.playlist.create.mockRejectedValue(new Error('Validation error'));
+    const res = await request(app)
+      .post('/api/playlists')
+      .set('Authorization', `Bearer ${mockToken}`)
+      .send({ name: 'My Playlist' });
+    expect(res.statusCode).toBe(400);
+  });
+
   it('should delete playlist', async () => {
     prisma.playlist.delete.mockResolvedValue({});
     const res = await request(app).delete('/api/playlists/1');
     expect(res.statusCode).toBe(204);
+  });
+
+  it('should return 400 on delete error', async () => {
+    prisma.playlist.delete.mockRejectedValue(new Error('Delete error'));
+    const res = await request(app).delete('/api/playlists/1');
+    expect(res.statusCode).toBe(400);
   });
 
   it('should add track to playlist', async () => {
@@ -63,9 +84,28 @@ describe('Playlists API', () => {
     expect(res.statusCode).toBe(201);
   });
 
+  it('should return 400 on addTrack error', async () => {
+    prisma.playlistTrack.create.mockRejectedValue(
+      new Error('Validation error')
+    );
+    const res = await request(app)
+      .post('/api/playlists/1/tracks')
+      .set('Authorization', `Bearer ${mockToken}`)
+      .send({ trackId: 100 });
+    expect(res.statusCode).toBe(400);
+  });
+
   it('should remove track from playlist', async () => {
     prisma.playlistTrack.delete.mockResolvedValue({});
     const res = await request(app).delete('/api/playlists/1/tracks/100');
     expect(res.statusCode).toBe(200);
+  });
+
+  it('should return 404 on removeTrack error', async () => {
+    prisma.playlistTrack.delete.mockRejectedValue(
+      new Error('Record not found')
+    );
+    const res = await request(app).delete('/api/playlists/1/tracks/100');
+    expect(res.statusCode).toBe(404);
   });
 });
